@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Painel das Redes - TikTok login</title>
+<style>
+  body { font-family: system-ui, Segoe UI, Arial, sans-serif; max-width: 720px; margin: 48px auto; padding: 0 20px; line-height: 1.6; color: #1b1f2a; }
+  h1 { font-size: 1.6rem; }
+  textarea { width: 100%; font-family: monospace; padding: 8px; }
+  button { padding: 8px 16px; margin-top: 8px; }
+</style>
+</head>
+<body>
+<h1>Painel das Redes</h1>
+<p id="msg">Waiting for the login result...</p>
+<textarea id="out" rows="3" readonly hidden></textarea>
+<button id="copy" hidden>Copy code</button>
+<script>
+var p = new URLSearchParams(location.search);
+var code = p.get("code");
+var err = p.get("error");
+var msg = document.getElementById("msg");
+var out = document.getElementById("out");
+var btn = document.getElementById("copy");
+if (code) {
+  msg.textContent = "Login authorized. Copy this code into the dashboard on your computer:";
+  out.value = code; out.hidden = false; btn.hidden = false;
+  btn.onclick = function () { out.select(); navigator.clipboard.writeText(out.value); btn.textContent = "Copied"; };
+} else if (err) {
+  msg.textContent = "Login was not authorized: " + err;
+} else {
+  msg.textContent = "This page receives the TikTok login result for the owner's personal dashboard.";
+}
+</script>
+</body>
+</html>
